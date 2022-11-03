@@ -22,10 +22,7 @@ const Header = () => {
             </div>
             <nav>
                 { 
-
-                    authCtx.token ? (
-
-                        
+                    authCtx.token ? (                       
                         <ul className='main-nav'>
                     <li>
                         <NavLink style={styleActiveLink} to='/'>Home</NavLink>
@@ -41,7 +38,7 @@ const Header = () => {
                     </li>
                         </ul>
                     ) : (
-                        <ul calssName='main-nav'>
+                        <ul className='main-nav'>
                     <li>
                         <NavLink style={styleActiveLink} to='/'>Home</NavLink>
                     </li>
