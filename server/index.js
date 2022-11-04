@@ -1,9 +1,13 @@
 require('dotenv').config()
 
+
 const express = require('express')
 const cors = require('cors')
 
-const {PORT} = process.env
+const {sequelize} = require('./util/database')
+const {SERVER_PORT} = process.env
+const {User} = require('./models/user')
+const {Post} = require('./models/post')
 const {getAllPosts, getCurrentUserPosts, addPost, editPost, deletePost} = require('./controllers/posts')
 const {register, login} = require('./controllers/auth')
 const {isAuthenticated} = require('./middleware/isAuthenticated')
@@ -12,6 +16,9 @@ const app = express()
 
 app.use(express.json())
 app.use(cors())
+
+User.hasMany(Post)
+Post.belongsTo(User)
 
 //authorization
 app.post('/register', register)
@@ -26,4 +33,8 @@ app.post('/posts', isAuthenticated, addPost)
 app.put('/posts/:id', isAuthenticated, editPost)
 app.delete('/posts/:id', isAuthenticated, deletePost)
 
-app.listen (PORT, () => console.log(`we are live in dimension ${PORT}`))
+sequelize.sync()
+.then(() => {
+    app.listen (SERVER_PORT, () => console.log(`we are live in dimension ${SERVER_PORT}`))
+})
+.catch(err => console.log(err))
