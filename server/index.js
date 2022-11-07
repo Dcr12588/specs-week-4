@@ -1,6 +1,5 @@
 require('dotenv').config()
 
-
 const express = require('express')
 const cors = require('cors')
 
@@ -33,7 +32,7 @@ app.post('/posts', isAuthenticated, addPost)
 app.put('/posts/:id', isAuthenticated, editPost)
 app.delete('/posts/:id', isAuthenticated, deletePost)
 
-sequelize.sync()
+sequelize.sync({ force: true })
 .then(() => {
     app.listen (SERVER_PORT, () => console.log(`we are live in dimension ${SERVER_PORT}`))
 })
